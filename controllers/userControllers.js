@@ -4,13 +4,7 @@ const pathUserData = path.join(__dirname, '..', 'data', 'users.json');
 
 const fs = require('fs').promises;
 
-function getFileContent(path) {
-  return fs.readFile(path, { enconding: 'utf-8' })
-    .then(JSON.parse)
-    .catch((err) => {
-      console.log(err);
-    });
-};
+const getFileContent = require('../helpers/getFileContent');
 
 function getUsers(req, res) {
   return getFileContent(pathUserData)
