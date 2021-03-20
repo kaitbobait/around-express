@@ -2,8 +2,6 @@ const path = require('path');
 
 const pathUserData = path.join(__dirname, '..', 'data', 'users.json');
 
-const fs = require('fs').promises;
-
 const getFileContent = require('../helpers/getFileContent');
 
 function getUsers(req, res) {
