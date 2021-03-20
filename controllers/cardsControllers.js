@@ -15,4 +15,4 @@ function getCards(req, res) {
     });
 }
 
-module.exports = getCards;
+module.exports = { getCards };
