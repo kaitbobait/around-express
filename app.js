@@ -3,18 +3,12 @@ const express = require('express');
 const app = express();
 const { PORT = 3000 } = process.env;
 
-const fs = require('fs').promises;
+
 const userRouter = require('./routes/users');
+const cardRouter = require('./routes/cards');
 
 app.use('/', userRouter);
-
-function getFileContent(path) {
-  return fs.readFile(path, { enconding: 'utf-8' })
-    .then(JSON.parse)
-    .catch((err) => {
-      console.log(err);
-    });
-};
+app.use('/', cardRouter);
 
 app.get('/cards', (req, res) => {
   res.send(cards);
