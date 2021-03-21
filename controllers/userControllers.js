@@ -9,21 +9,18 @@ function getUsers(req, res) {
     .then((users) => {
       res.send(users);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(404);
-    })
+    .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
 }
 
 function getOneUser(req, res) {
   return getFileContent(pathUserData)
-      .then((users) => {
-        const user = users.find((user) => user._id === req.params.id);
-        if (!user) {
-          res.send(res.status(404), { message: 'User ID not found, k byebye!' });
-        }
-        res.status(200).send(user);
-      });
+    .then((users) => {
+      const user = users.find((user) => user._id === req.params.id);
+      if (!user) {
+        res.status(404).send({ message: 'User ID not found, k byebye!' });
+      }
+      res.status(200).send(user);
+    });
 }
 
 module.exports = {

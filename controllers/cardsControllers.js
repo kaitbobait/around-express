@@ -9,10 +9,7 @@ function getCards(req, res) {
     .then((cards) => {
       res.send(cards);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(404);
-    });
+    .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
 }
 
 module.exports = { getCards };

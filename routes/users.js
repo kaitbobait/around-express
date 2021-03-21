@@ -2,8 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 
-const getFileContent = require('../helpers/getFileContent');
-
 const { getUsers, getOneUser } = require('../controllers/userControllers');
 
 router.get('/users', getUsers);
