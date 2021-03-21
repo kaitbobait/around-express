@@ -15,15 +15,15 @@ function getUsers(req, res) {
 function getOneUser(req, res) {
   return getFileContent(pathUserData)
     .then((users) => {
-      const user = users.find((user) => user._id === req.params.id);
-      if (!user) {
+      const currentUser = users.find((user) => user._id === req.params.id);
+      if (!currentUser) {
         res.status(404).send({ message: 'User ID not found, k byebye!' });
       }
-      res.status(200).send(user);
+      res.status(200).send(currentUser);
     });
 }
 
 module.exports = {
   getUsers,
-  getOneUser
+  getOneUser,
 };
