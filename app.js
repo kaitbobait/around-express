@@ -20,7 +20,7 @@ app.use('/', userRouter);
 app.use('/', cardRouter);
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });
-});
+});P
 
 app.listen(PORT, () => {
   // if everything works fine, the console will show which port the application is listening to
