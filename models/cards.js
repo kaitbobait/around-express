@@ -13,7 +13,7 @@ const cardsSchema = new mongoose.Schema({
     link: {
         type: String,
         required: true,
-        link: empty,
+        //link: ,
         validator: {
             
         }
@@ -21,7 +21,7 @@ const cardsSchema = new mongoose.Schema({
     },
     //link to card author's model, objectId type
     owner: {
-        required: true,
+        //required: true,
     },
     // list of users who liked the post, objectId array, empty array by default(default field)
     likes: {
@@ -33,4 +33,4 @@ const cardsSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('card', userSchema);
+module.exports = mongoose.model('card', cardsSchema);

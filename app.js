@@ -16,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
+app.use(express.json());
 app.use('/', userRouter);
 app.use('/', cardRouter);
 app.get('*', (req, res) => {
