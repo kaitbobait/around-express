@@ -40,7 +40,15 @@ function getOneUser(req, res) {
     .catch (err => res.status(400).send(err))
 }
 
-module.exports = {
+function createUser(req, res) {
+  console.log(req.body);
+  return User.create(req.body)
+  .then(user => res.status(200).send(user))
+  .catch (err => res.status(400).send(err))
+}
+
+module.exports = { 
   getUsers,
   getOneUser,
+  createUser
 };
