@@ -13,7 +13,7 @@ const cardsSchema = new mongoose.Schema({
     link: {
         type: String,
         required: true,
-        //link: ,
+        link: "",
         validator: {
             
         }
@@ -21,13 +21,22 @@ const cardsSchema = new mongoose.Schema({
     },
     //link to card author's model, objectId type
     owner: {
-        //required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'user' //card author's model?
     },
     // list of users who liked the post, objectId array, empty array by default(default field)
-    likes: {[]},
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            default: [],
+            ref: 'user'
+        }
+    ],
     //creation date, Date type, default value Date.now
     createdAt: {
         type: Date,
+        default: Date.now,
     }
 })
 

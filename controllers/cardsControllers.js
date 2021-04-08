@@ -12,6 +12,7 @@ function getCards(req, res) {
   //   })
   //   .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
   return Cards.find({})
+  .populate(['owner', 'likes'])
   .then(cards => res.status(200).send(cards))
   .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
 }

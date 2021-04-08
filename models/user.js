@@ -7,8 +7,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 2,
         maxlength: 30,
-        validator: {
-            
+        validate: {
+            validator(v) {
+
+            }
         }
     },
     //user information, string from 2 to 30 characters, required field
@@ -17,16 +19,22 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 2,
         maxlength: 30,
-        validator: {
-            
+        validate: {
+            validator(v) {
+                
+            }
         }
     },
     //link to the avatar, string, required field
     avatar: {
         type: String,
         required: true,
-        validator: {
+        validate: {
+            //regex: /https?:\/\/[www.]?[-a-z0-9]{2,24}[/-a-z0-9_.#@]+/i
+            validator(v) {
 
+            },
+            message: 'something...'
         }
     }
 })
