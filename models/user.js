@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         validate: {
             //regex: /https?:\/\/[www.]?[-a-z0-9]{2,24}[/-a-z0-9_.#@]+/i
             validator(v) {
-                const regex = /^https?:\/\/(www.)?\S+/gi;
+                const regex = /^https?:\/\/(www\.)?\S+/gi;
                 return regex.test(v);
             },
             message: 'Please enter valid url'

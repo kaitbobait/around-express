@@ -5,17 +5,19 @@ const cardsSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 30,
-        validator: {
-            
-        }
+        maxlength: 30
     },
     link: {
         type: String,
         required: true,
         link: "",
-        validator: {
-            
+        validate: {
+            //regex: /https?:\/\/[www.]?[-a-z0-9]{2,24}[/-a-z0-9_.#@]+/i
+            validator(v) {
+                const regex = /^https?:\/\/(www\.)?\S+/gi;
+                return regex.test(v);
+            },
+            message: 'Please enter valid url'
         }
 
     },
