@@ -4,8 +4,6 @@ const app = express();
 
 const mongoose = require('mongoose');
 
-const bodyParser = require('body-parser');
-
 const { PORT = 3000 } = process.env;
 
 const userRouter = require('./routes/users');
@@ -18,7 +16,20 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
-//app.use(bodyParser);
+ /**
+  * adds a user object to each request
+  * middleware
+  * hard coded _id - temporary solution
+  */
+ 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '606d2817d0fa281c58a5464c' // paste the _id of the test user created in the previous step
+  };
+
+  next();
+});
+
 app.use(express.json());
 app.use('/', userRouter);
 app.use('/', cardRouter);

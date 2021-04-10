@@ -1,6 +1,4 @@
 const path = require('path');
-
-//const pathUserData = path.join(__dirname, '..', 'data', 'users.json');
 const User = require('../models/user');
 
 const getFileContent = require('../helpers/getFileContent');
@@ -13,7 +11,9 @@ function getUsers(req, res) {
   //   .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
 
   return User.find({})
-    .then(users => res.status(200).send(users))
+    .then(users => {
+      res.status(200).send(users))
+    }
     .catch(err => res.status(400).send({ message: 'Error with database - k' }))
 }
 
