@@ -12,9 +12,27 @@ function getCards(req, res) {
   //   })
   //   .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
   return Cards.find({})
-  .populate(['owner', 'likes'])
-  .then(cards => res.status(200).send(cards))
-  .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
+    .populate(['owner', 'likes'])
+    .then(cards => res.status(200).send(cards))
+    .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
 }
 
-module.exports = { getCards };
+function createCard(req, res) {
+  const { name, link } = req.body;
+
+  return Cards.create({ name, link })
+    .then(card => res.status(200).send(card))
+    .catch(err => res.status(400).send(err))
+}
+
+function deleteCard(req, res) {
+  return Cards.findByIdAndRemove({ id: req.params.id })
+    .then(user => res.send({ data: user }))
+    .catch(err => res.status(500).send({ message: 'Error' }));
+}
+
+module.exports = {
+  getCards,
+  createCard,
+  deleteCard
+};
