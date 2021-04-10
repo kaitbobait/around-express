@@ -12,8 +12,8 @@ function getUsers(req, res) {
 
   return User.find({})
     .then(users => {
-      res.status(200).send(users))
-    }
+      res.status(200).send(users)
+    })
     .catch(err => res.status(400).send({ message: 'Error with database - k' }))
 }
 
@@ -28,10 +28,11 @@ function getOneUser(req, res) {
   //   });
 
   //not finding the user id
-  return User.findOne({ id: req.params.id })
+  return User.findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: 'User ID not found, k byebye!' });
+        console.log(user);
+        return res.status(404).json({ message: 'User ID not found' });
       } 
       return res.status(200).send(user);
       //res.status(200).send({user}) // returns "null"

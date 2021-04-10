@@ -6,24 +6,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 30,
-        validate: {
-            validator(v) {
-
-            }
-        }
+        maxlength: 30
     },
     //user information, string from 2 to 30 characters, required field
     about: {
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 30,
-        validate: {
-            validator(v) {
-                
-            }
-        }
+        maxlength: 30
     },
     //link to the avatar, string, required field
     avatar: {
@@ -32,9 +22,10 @@ const userSchema = new mongoose.Schema({
         validate: {
             //regex: /https?:\/\/[www.]?[-a-z0-9]{2,24}[/-a-z0-9_.#@]+/i
             validator(v) {
-
+                const regex = /^https?:\/\/(www.)?\S+/gi;
+                return regex.test(v);
             },
-            message: 'something...'
+            message: 'Please enter valid url'
         }
     }
 })
