@@ -11,7 +11,7 @@ function getUsers(req, res) {
     .catch((err) => {
       if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
       return res.status(400).send({ message: 'Error with database - k' })}
-      );
+    );
 }
 
 function getOneUser(req, res) {
