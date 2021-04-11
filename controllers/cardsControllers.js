@@ -51,7 +51,7 @@ function addLike(req, res) {
 }
 
 function deleteLike(req, res) {
-  return findByIdAndUpdate(
+  return Cards.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
     { new: true },
