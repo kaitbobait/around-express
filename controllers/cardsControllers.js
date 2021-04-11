@@ -1,64 +1,66 @@
-const path = require('path');
-
 const Cards = require('../models/cards');
-
-const getFileContent = require('../helpers/getFileContent');
-const { findByIdAndUpdate } = require('../models/cards');
 
 function getCards(req, res) {
   return Cards.find({})
-    .then(cards => {
-      
-      res.status(200).send(cards)
+    .then((cards) => {
+      res.status(200).send(cards);
     })
     .catch(() => res.status(500).send({ message: 'Internal Server Error' }));
 }
 
-//returns error 400, ownerId is undefined
+// returns error 400, ownerId is undefined
 function createCard(req, res) {
-  const { name, link} = req.body;
+  const { name, link } = req.body;
 
   return Cards.create({ name, link, owner: req.user._id })
-    .then(card => {
-      res.status(200).send(card)
+    .then((card) => {
+      res.status(200).send(card);
     })
-    .catch(err => {
-      res.status(400).send({message: "Invalid data"})
-    })
+    .catch((err) => {
+      res.status(400).send({ message: 'Invalid data' });
+    });
 }
 
-//works - was originally putting the owner id in instead of objectId
+// works - was originally putting the owner id in instead of objectId
 function deleteCard(req, res) {
   return Cards.findByIdAndRemove(req.params.cardId)
-    .then(user => {
+    .then((user) => {
       if (user) {
-        res.send({ data: user })
+        res.send({ data: user });
       } else {
         res.status(404).send({ message: 'Card not found' });
       }
-
     })
-    .catch(err => res.status(500).send({ message: 'Error' }));
+    .catch((err) => res.status(500).send({ message: 'Error' }));
 }
 
-//works
+// works
 function addLike(req, res) {
   return Cards.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
     { new: true })
-    .then(likes => res.send({ data: likes })) //returns null - but works
-    .catch(err => res.status(500).send({ message: 'Error' }));
+    .then((likes) => {
+      if(likes){
+        res.send({ data: likes })
+      } else {
+        res.status(404).json({message: "Card not found with that id"})
+      }
+    }) 
+    .catch((err) => {
+      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
+      return res.status(500).send({ message: err.name })
+    });
 }
 
-//works
+// works
 function deleteLike(req, res) {
   return Cards.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
     { new: true },
   )
-  .then(likes => res.send({ data: likes }))
-  .catch(err => res.status(500).send({ message: 'Error' }));
+    .then((likes) => res.send({ data: likes }))
+    .catch((err) => res.status(500).send({ message: 'Error' }));
 }
 
 module.exports = {
@@ -66,5 +68,5 @@ module.exports = {
   createCard,
   deleteCard,
   addLike,
-  deleteLike
+  deleteLike,
 };

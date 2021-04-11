@@ -16,15 +16,15 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
- /**
+/**
   * adds a user object to each request
   * middleware
   * hard coded _id - temporary solution
   */
- 
+
 app.use((req, res, next) => {
   req.user = {
-    _id: '606d2817d0fa281c58a5464c' // paste the _id of the test user created in the previous step
+    _id: '606d2817d0fa281c58a5464c', // paste the _id of the test user created in the previous step
   };
   next(); // moves to next middleware
 });
