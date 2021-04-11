@@ -41,11 +41,12 @@ function deleteCard(req, res) {
     .catch(err => res.status(500).send({ message: 'Error' }));
 }
 
+//works
 function addLike(req, res) {
-  return findByIdAndUpdate(req.params.cardId,
+  return Cards.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
     { new: true })
-    .then(likes => res.send({ data: likes }))
+    .then(likes => res.send({ data: likes })) //returns null - but works
     .catch(err => res.status(500).send({ message: 'Error' }));
 }
 
