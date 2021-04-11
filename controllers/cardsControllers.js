@@ -50,6 +50,7 @@ function addLike(req, res) {
     .catch(err => res.status(500).send({ message: 'Error' }));
 }
 
+//works
 function deleteLike(req, res) {
   return Cards.findByIdAndUpdate(
     req.params.cardId,
