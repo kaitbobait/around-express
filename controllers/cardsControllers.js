@@ -5,9 +5,9 @@ function getCards(req, res) {
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
-      return res.status(500).send({ message: 'Internal Server Error' })
+      return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
 
@@ -36,8 +36,8 @@ function deleteCard(req, res) {
       }
     })
     .catch((err) => {
-      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
-      return res.status(500).send({ message: "Internal Server Error" })
+      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
 
@@ -47,15 +47,15 @@ function addLike(req, res) {
     { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
     { new: true })
     .then((likes) => {
-      if(likes){
-        res.send({ data: likes })
+      if (likes) {
+        res.send({ data: likes });
       } else {
-        res.status(404).json({message: "Card not found with Id"})
+        res.status(404).json({ message: 'Card not found with Id' });
       }
-    }) 
+    })
     .catch((err) => {
-      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
-      return res.status(500).send({ message: 'Internal Server Error' })
+      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
 
@@ -66,16 +66,16 @@ function deleteLike(req, res) {
     { $pull: { likes: req.user._id } }, // remove _id from the array
     { new: true },
   )
-  .then((likes) => {
-    if(likes){
-      res.send({ data: likes })
-    } else {
-      res.status(404).json({message: "Card not found with Id"})
-    }
-  }) 
+    .then((likes) => {
+      if (likes) {
+        res.send({ data: likes });
+      } else {
+        res.status(404).json({ message: 'Card not found with Id' });
+      }
+    })
     .catch((err) => {
-      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
-      return res.status(500).send({ message: 'Internal Server Error' })
+      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
 

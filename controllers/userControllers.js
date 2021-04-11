@@ -10,8 +10,8 @@ function getUsers(req, res) {
     })
     .catch((err) => {
       if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
-      return res.status(400).send({ message: 'Error with database - k' })}
-    );
+      return res.status(400).send({ message: 'Error with database - k' });
+    });
 }
 
 function getOneUser(req, res) {
@@ -34,7 +34,7 @@ function createUser(req, res) {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
-      return res.status(400).send(err)
+      return res.status(400).send(err);
     });
 }
 
@@ -62,7 +62,7 @@ function updateUserAvatar(req, res) {
     .then((link) => res.send({ data: link }))
     .catch((err) => {
       if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
-      return res.status(500).send({ message: 'Error' })
+      return res.status(500).send({ message: 'Error' });
     });
 }
 
