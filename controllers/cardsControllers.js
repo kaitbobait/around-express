@@ -11,22 +11,24 @@ function getCards(req, res) {
       
       res.status(200).send(cards)
     })
-    //.catch(() => res.status(500).send({ message: 'Internal Server Error' }));
-    .catch(() => res.status(500).send(console.log(req)));
+    .catch(() => res.status(500).send({ message: 'Internal Server Error' }));
 }
 
+//returns error 400, ownerId is undefined
 function createCard(req, res) {
-  const { name, link } = req.body;
+  const { name, link} = req.body;
 
-  return Cards.create({ name, link })
+  return Cards.create({ name, link, owner: req.user._id })
     .then(card => {
       res.status(200).send(card)
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      res.status(400).send({message: "Invalid data"})
+    })
 }
 
 function deleteCard(req, res) {
-  return Cards.findByIdAndRemove({ id: req.params.id })
+  return Cards.findByIdAndRemove(req.params.id)
     .then(user => {
       console.log(req.user._id);
       if (user) {
