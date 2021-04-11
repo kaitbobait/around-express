@@ -46,10 +46,9 @@ function createUser(req, res) {
     .catch(err => res.status(400).send(err))
 }
 
-// get 200 response in Postman but doesn't update
+// works
 function updateUser(req, res) {
-  console.log({message: "req.user._id"});
-  return User.findByIdAndUpdate(req.user._id, { name: req.params.name, about: req.params.about }, {
+  return User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }, {
     new: true, // the then handler receives the updated entry as input
     runValidators: true, // the data will be validated before the update 
     upsert: true // if the user entry wasn't found, it will be created
