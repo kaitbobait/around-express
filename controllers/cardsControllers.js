@@ -27,10 +27,10 @@ function createCard(req, res) {
     })
 }
 
+//works - was originally putting the owner id in instead of objectId
 function deleteCard(req, res) {
-  return Cards.findByIdAndRemove(req.params.id)
+  return Cards.findByIdAndRemove(req.params.cardId)
     .then(user => {
-      console.log(req.user._id);
       if (user) {
         res.send({ data: user })
       } else {
