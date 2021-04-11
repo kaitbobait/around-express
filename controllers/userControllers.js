@@ -8,7 +8,10 @@ function getUsers(req, res) {
       }
       return res.status(404).json({ message: 'Users not found' });
     })
-    .catch((err) => res.status(400).send({ message: 'Error with database - k' }));
+    .catch((err) => {
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      return res.status(400).send({ message: 'Error with database - k' })}
+      );
 }
 
 function getOneUser(req, res) {
@@ -20,7 +23,7 @@ function getOneUser(req, res) {
       return res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
       return res.status(500).send({ error: 'system error' });
     });
 }
@@ -29,7 +32,10 @@ function createUser(req, res) {
   const { name, about, avatar } = req.body;
   return User.create({ name, about, avatar })
     .then((user) => res.status(200).send(user))
-    .catch((err) => res.status(400).send(err));
+    .catch((err) => {
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      return res.status(400).send(err)
+    });
 }
 
 // works
@@ -42,7 +48,7 @@ function updateUser(req, res) {
     // .catch(err => res.status(500).send({message: 'uh oh' }));
     .catch((err) => {
       // if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
-      if (err.name === 'CastError') return res.status(400).send(req.body);
+      if (err.name === 'CastError') return res.status(404).send(req.body);
       return res.status(500).send({ error: 'system error' });
     });
 }
@@ -54,7 +60,10 @@ function updateUserAvatar(req, res) {
     runValidators: true, // the data will be validated before the update
   })
     .then((link) => res.send({ data: link }))
-    .catch((err) => res.status(500).send({ message: 'Error' }));
+    .catch((err) => {
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      return res.status(500).send({ message: 'Error' })
+    });
 }
 
 module.exports = {

@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 
 const { PORT = 3000 } = process.env;
 
+const helmet = require('helmet');
+
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 
@@ -30,6 +32,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+// protects app from web vulnerabilities by setting HTTP headers
+app.use(helmet());
 app.use('/', userRouter);
 app.use('/', cardRouter);
 app.get('*', (req, res) => {

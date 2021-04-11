@@ -5,7 +5,10 @@ function getCards(req, res) {
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch(() => res.status(500).send({ message: 'Internal Server Error' }));
+    .catch(() => {
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      return res.status(500).send({ message: 'Internal Server Error' })
+    });
 }
 
 // returns error 400, ownerId is undefined
@@ -17,7 +20,8 @@ function createCard(req, res) {
       res.status(200).send(card);
     })
     .catch((err) => {
-      res.status(400).send({ message: 'Invalid data' });
+      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      return res.status(400).send({ message: 'Invalid data' });
     });
 }
 
@@ -62,8 +66,17 @@ function deleteLike(req, res) {
     { $pull: { likes: req.user._id } }, // remove _id from the array
     { new: true },
   )
-    .then((likes) => res.send({ data: likes }))
-    .catch((err) => res.status(500).send({ message: 'Error' }));
+  .then((likes) => {
+    if(likes){
+      res.send({ data: likes })
+    } else {
+      res.status(404).json({message: "Card not found with Id"})
+    }
+  }) 
+    .catch((err) => {
+      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
+      return res.status(500).send({ message: 'Internal Server Error' })
+    });
 }
 
 module.exports = {
