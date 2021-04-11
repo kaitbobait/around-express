@@ -12,7 +12,7 @@ router.get('/users/:id', getOneUser);
 // update user profile
 router.patch('/users/me', updateUser); 
 // update user avatar
-router.patch('/user/me/avatar', updateUserAvatar);
+router.patch('/users/me/avatar', updateUserAvatar);
 
 
 module.exports = router;
