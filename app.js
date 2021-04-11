@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     _id: '606d2817d0fa281c58a5464c' // paste the _id of the test user created in the previous step
   };
 
-  next();
+  next(); // moves to next middleware
 });
 
 app.use(express.json());

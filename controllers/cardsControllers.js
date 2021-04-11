@@ -3,6 +3,7 @@ const path = require('path');
 const Cards = require('../models/cards');
 
 const getFileContent = require('../helpers/getFileContent');
+const { findByIdAndUpdate } = require('../models/cards');
 
 function getCards(req, res) {
   // return getFileContent(pathCardData)
@@ -13,6 +14,7 @@ function getCards(req, res) {
   return Cards.find({})
     .populate(['owner', 'likes'])
     .then(cards => {
+      
       res.status(200).send(cards)
     })
     .catch(() => res.status(500).json({ message: 'Internal Server Error' }));
@@ -32,18 +34,38 @@ function deleteCard(req, res) {
   return Cards.findByIdAndRemove({ id: req.params.id })
     .then(user => {
       console.log(req.user._id);
-      if(user){
+      if (user) {
         res.send({ data: user })
       } else {
-        res.status(404).send({message: 'Card not found'});
+        res.status(404).send({ message: 'Card not found' });
       }
 
     })
     .catch(err => res.status(500).send({ message: 'Error' }));
 }
 
+function addLike(req, res) {
+  return findByIdAndUpdate(req.params.cardId,
+    { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
+    { new: true })
+    .then(likes => res.send({ data: likes }))
+    .catch(err => res.status(500).send({ message: 'Error' }));
+}
+
+function deleteLike(req, res) {
+  return findByIdAndUpdate(
+    req.params.cardId,
+    { $pull: { likes: req.user._id } }, // remove _id from the array
+    { new: true },
+  )
+  .then(likes => res.send({ data: likes }))
+  .catch(err => res.status(500).send({ message: 'Error' }));
+}
+
 module.exports = {
   getCards,
   createCard,
-  deleteCard
+  deleteCard,
+  addLike,
+  deleteLike
 };
