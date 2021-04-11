@@ -28,10 +28,13 @@ function deleteCard(req, res) {
       if (user) {
         res.send({ data: user });
       } else {
-        res.status(404).send({ message: 'Card not found' });
+        res.status(404).json({ message: 'Card not found with Id' });
       }
     })
-    .catch((err) => res.status(500).send({ message: 'Error' }));
+    .catch((err) => {
+      if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
+      return res.status(500).send({ message: "Internal Server Error" })
+    });
 }
 
 // works
@@ -43,12 +46,12 @@ function addLike(req, res) {
       if(likes){
         res.send({ data: likes })
       } else {
-        res.status(404).json({message: "Card not found with that id"})
+        res.status(404).json({message: "Card not found with Id"})
       }
     }) 
     .catch((err) => {
       if(err.name === 'CastError') return res.status(404).json({message: "invalid Id string"})
-      return res.status(500).send({ message: err.name })
+      return res.status(500).send({ message: 'Internal Server Error' })
     });
 }
 
