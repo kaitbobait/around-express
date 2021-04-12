@@ -6,7 +6,7 @@ function getCards(req, res) {
       res.status(200).send(cards);
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
@@ -20,7 +20,7 @@ function createCard(req, res) {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(400).send({ message: 'Invalid data' });
     });
 }
@@ -36,7 +36,7 @@ function deleteCard(req, res) {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      if (err.name === 'CastError') return res.status(400).json({ message: 'invalid Id string' });
       return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
@@ -54,7 +54,7 @@ function addLike(req, res) {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      if (err.name === 'CastError') return res.status(400).json({ message: 'invalid Id string' });
       return res.status(500).send({ message: 'Internal Server Error' });
     });
 }
@@ -74,7 +74,7 @@ function deleteLike(req, res) {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).json({ message: 'invalid Id string' });
+      if (err.name === 'CastError') return res.status(400).json({ message: 'invalid Id string' });
       return res.status(500).send({ message: 'Internal Server Error' });
     });
 }

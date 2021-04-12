@@ -9,7 +9,7 @@ function getUsers(req, res) {
       return res.status(404).json({ message: 'Users not found' });
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(400).send({ message: 'Error with database - k' });
     });
 }
@@ -23,7 +23,7 @@ function getOneUser(req, res) {
       return res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(500).send({ error: 'system error' });
     });
 }
@@ -33,7 +33,7 @@ function createUser(req, res) {
   return User.create({ name, about, avatar })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(400).send(err);
     });
 }
@@ -48,7 +48,7 @@ function updateUser(req, res) {
     // .catch(err => res.status(500).send({message: 'uh oh' }));
     .catch((err) => {
       // if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
-      if (err.name === 'CastError') return res.status(404).send(req.body);
+      if (err.name === 'CastError') return res.status(400).send(req.body);
       return res.status(500).send({ error: 'system error' });
     });
 }
@@ -61,7 +61,7 @@ function updateUserAvatar(req, res) {
   })
     .then((link) => res.send({ data: link }))
     .catch((err) => {
-      if (err.name === 'CastError') return res.status(404).send({ error: 'invalid id number' });
+      if (err.name === 'CastError') return res.status(400).send({ error: 'invalid id number' });
       return res.status(500).send({ message: 'Error' });
     });
 }

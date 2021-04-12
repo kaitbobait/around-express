@@ -30,8 +30,8 @@ app.use((req, res, next) => {
   };
   next(); // moves to next middleware
 });
-
 app.use(express.json());
+
 // protects app from web vulnerabilities by setting HTTP headers
 app.use(helmet());
 app.use('/', userRouter);
